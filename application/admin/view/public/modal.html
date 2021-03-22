@@ -1,0 +1,47 @@
+<!--存放对话框内容-->
+<script>
+$(document).ready(function(e) {
+   /*安全退出*/
+   $(".last").on("click",function(){
+	   $('#logout').modal('show', {backdrop: 'static'});
+	   return false;
+   }); 
+	$("#logout .sure").on("click",function(){
+		$('#logout').modal('hide');
+		window.location.href="{{url_for('login.out')}}";
+	});
+	
+	/*
+	$('#logout').on('shown.bs.modal', function (e) {  
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零  
+            $(this).css('display', 'block');  
+            var modalHeight=$(window).height() / 2 - $('#logout .modal-dialog').height() / 2;  
+            $(this).find('.modal-dialog').css({  
+                'margin-top': modalHeight  
+            });  
+    }); 
+	*/
+});
+</script>
+
+
+<div class="modal fade" id="logout" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" aria-hidden="true" type="button" data-dismiss="modal">×</button>
+                <h4 class="modal-title">系统提示</h4>
+            </div>
+            <div class="modal-body">
+                您确定要安全退出系统吗?
+            </div>
+            <div class="modal-footer">
+                <input name="id" type="hidden" value="0" />
+                <center>
+                <button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary sure">确定</button>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>

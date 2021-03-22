@@ -1,0 +1,62 @@
+<div class="sidebar-menu toggle-others fixed">  <!--collapsed--> <!-- linecons-desktop , linecons-params , linecons-cloud -->
+  <div class="sidebar-menu-inner">
+    <header class="logo-env"> 
+      <!-- logo -->
+      <div class="logo"> <a href="{:url('index/index')}" class="logo-expanded"> <img src="{{url_for('static',  filename ='public/static/assets/images/logo@2x.png')}}" width="80" alt="" /> </a> <a href="{:url('index/index')}" class="logo-collapsed"> <img src="{{url_for('static',  filename ='public/static/assets/images/logo-collapsed@2x.png')}}" width="40" alt="" /> </a> </div>
+      <!-- This will toggle the mobile menu and will be visible only on mobile devices -->
+      <div class="mobile-menu-toggle visible-xs"> <a href="#" data-toggle="user-info-menu"> <i class="fa-bell-o"></i> <span class="badge badge-success">7</span> </a> <a href="#" data-toggle="mobile-menu"> <i class="fa-bars"></i> </a> </div>
+      <!-- This will open the popup with user profile settings, you can use for any purpose, just be creative -->
+      <div class="settings-icon"> <a href="#" data-toggle="settings-pane" data-animate="true"> <i class="linecons-cog"></i> </a> </div>
+    </header>
+    <ul id="main-menu" class="main-menu">
+      <!-- add class "multiple-expanded" to allow multiple submenus to open --> 
+      <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
+      <li class="active opened active"> <a href="dashboard-1.html"> <i class="linecons-desktop"></i> <span class="title">网站管理</span> </a>
+        <ul>
+          <li class="active"> <a href="{:url("slide/index")}"> <span class="title">Banner广告</span> </a> </li>
+          
+          {% for key in menu %}
+          <li> <a href="javascript:void(0)"> <span class="title">{{key.title}}</span> </a>
+            <ul>
+              {% for vo in key.son %}
+              <li> <a href="{{vo.url}}"> <i class="entypo-flow-parallel"></i> <span class="title">{{vo.title}}</span> </a> </li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endfor %}
+          <li> 
+              	<a href="javascript:void(0)"><span class="title">人材招聘</span> </a> 
+              	<ul>
+                	<a href="{:url("job/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">人材招聘</span> </a> 
+                    <a href="{:url("job/contact")}"> <i class="entypo-flow-parallel"></i> <span class="title">联系方式</span> </a> 
+                </ul>
+         </li>
+		  <li> <a href="{:url("links/index")}"> <span class="title">友情链接</span> </a> </li>
+          <li> <a href="javascript:void(0)"> <span class="title">网站插件</span> </a>
+            <ul>
+            
+              <li> <a href="{:url("book/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">留言簿</span> </a> </li>
+              <li> <a href="{:url("book/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">投票管理</span> </a> </li>
+              <li> <a href="{:url("book/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">微营销</span> </a> </li>
+             
+            </ul>
+          </li>
+
+          <li> <a href="javascript:void(0)"> <span class="title">系统管理</span> </a>
+            <ul>
+              <li> <a href="{:url("admin/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">管理员管理</span> </a> </li>
+              <li> <a href="{:url("system/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">系统设置</span> </a> </li>
+              <li> <a href="{:url("system/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">文件管理</span> </a> </li>
+              <li> <a href="{:url("cache/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">缓存设置</span> </a> </li>
+              <li> <a href="{:url("category/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">类别管理</span> </a> </li>
+              <li> <a href="{:url("category/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">生成静态</span> </a> </li>
+              <li> <a href="{:url("mysql/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">数据备份</span> </a> </li>
+              <li> <a href="{:url("category/index")}"> <i class="entypo-flow-parallel"></i> <span class="title">初始化系统</span> </a> </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      
+    </ul>
+  </div>
+</div>

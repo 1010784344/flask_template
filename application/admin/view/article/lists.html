@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Xenon Boostrap Admin Panel" />
+<meta name="author" content="" />
+{% include "admin/view/public/css.html" %}
+</head>
+<body class="page-body">
+{% include "admin/view/public/setting.html" %}
+<div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always --> 
+  <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. --> 
+  <!-- Adding class "toggle-others" will keep only one menu item open at a time. --> 
+  <!-- Adding class "collapsed" collapse sidebar root elements and show only icons. --> 
+  {% include "admin/view/public/menu.html" %}
+  <div class="main-content"> 
+    <!-- User Info, Notifications and Menu Bar --> 
+    {% include "admin/view/public/nav.html" %}
+    <!-- Basic Setup --> 
+    <!-- Removing search and results count filter -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">信息管理</h3>
+        <div class="panel-options"> <a href="{{url_for('article.add',categoryid=options.category.id)}}"> <i class="linecons-calendar"  data-toggle="popover" data-trigger="hover" data-placement="top" data-content="添加信息"></i> </a> <a href="javascript:void(0)" data-toggle="panel"> <span class="collapse-icon">&ndash;</span> <span class="expand-icon">+</span> </a> <a href="javascript:void(0)" data-toggle="remove"> &times; </a> </div>
+      </div>
+      <div class="panel-body">
+        <nav class="navbar navbar-default" role="navigation">
+          <div class="nav navbar-nav navbar-right">
+            <form id="search" name="search" class="navbar-form navbar-left" role="search" action="{{url_for('article.lists',id=options.category.id)}}" method="get">
+              <div class="form-group w130">
+                <select class="form-control" id="categoryid" name="categoryid">
+                  <option value="{{options.category.id}}">{{options.category.category}}</option>
+                </select>
+              </div>
+              <div class="form-group w130">
+                <select id="field" name="field"  class="form-control">
+                  <option value="title" {% if options.field == "title" %} selected {% endif %}>标题</option>
+                  <option value="subtitle" {% if options.field == "subtitle" %} selected {% endif %}>副标题</option>
+                  <option value="content" {% if options.field == "content" %} selected {% endif %}>内容</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input class="form-control" placeholder="Search" type="text" id="keywords" name="keywords" value="{{options.keywords}}">
+              </div>
+              <button type="submit" class="btn btn-secondary">Submit <i class="linecons-search"></i></button>
+            </form>
+          </div>
+        </nav>
+
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-success"> 
+          <button type="button" class="close" data-dismiss="alert"> 
+            <span aria-hidden="true">×</span> <span class="sr-only">Close</span> 
+          </button> 
+          <strong>温馨提示:</strong> 
+          {{ message }}
+        </div>
+        {% endfor %}
+
+        <form id="frm_article" name="frm_article" method="post" action="{{url_for('article.manage')}}">
+          <table class="table mail-table table-bordered table-striped table-hover" >
+            <thead>
+              <tr>
+                <th> <input type="checkbox" class="cbr" />
+                </th>
+                <th class="no-sorting"> Id</th>
+                <th>类别</th>
+                <th>标题</th>
+                <th>来源</th>
+                <th>是否审核</th>
+                <th>发布时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody class="middle-align">
+            
+            {% for article in articlelist %}
+
+            <tr class="">
+              <td><input type="checkbox" class="cbr" name="id" value="{{article.id}}" /></td>
+              <td>{{article.id}}</td>
+              <td>{{article.category}}</td>
+              <td><a href="#">{{article.title}}</a></td>
+              <td>{{article.source}}</td>
+              <td>{% if article.isexamine %} 已审核 {%else%} <font color=red>待审核</font> {%endif%}</td>
+              <td>{{article[5]}}</td>
+              <td><a href="{{url_for('article.edit',id=article.id)}}" >编辑</a> | <a href="javascript:void(0)" data-id="{{article.id}}" class="tr-article-delete">删除</a></td>
+            </tr>
+            {% endfor %}
+            <tr>
+              <td colspan="8">
+                <input type="hidden" name="categoryid" value="{{options.category.id}}" />
+                <button id="btn_article_dele" name="btn_article_dele" type="button"  class="btn btn-danger btn-sm btn-icon icon-left">删除</button>
+              </td>
+            </tr>
+              </tbody>
+            
+          </table>
+        </form>
+       
+        
+        <div class="row"> 
+
+          <div class="col-xs-6">
+            <div class="dataTables_info" ></div>
+          </div>
+
+          <div style="float:right;">
+            <div class="page">
+              <ul class="pagination">
+                {% if paginate.has_prev %}
+                <li><a href="{{url_for('article.lists',id=options.category.id,page=1,keywords=options.keywords,field=options.field)}}">&laquo;</a></li>
+                {%else%}
+                <li class="disabled"><span>&laquo;</span></li> 
+                {% endif %}
+
+                {% for i in paginate.iter_pages() %}
+                <li {%if paginate.page==i%} class="active" {%endif%} ><a href="{{url_for('article.lists',id=options.category.id,page=i,keywords=options.keywords,field=options.field)}}">{{i}}</a></li>
+                {% endfor %}
+
+                {% if paginate.has_next %}
+                <li><a href="{{url_for('article.lists',id=options.category.id,page=paginate.next_num,keywords=options.keywords,field=options.field)}}">&raquo;</a></li>
+                {%else%}
+                <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+    {% include "admin/view/public/footer.html" %}
+ </div>
+ {% include "admin/view/public/chat.html" %}
+</div>
+    {% include "admin/view/public/modal.html" %}
+    {% include "admin/view/public/js.html" %}
+    {% include "admin/view/public/checkbox.html" %}
+</body>
+</html>

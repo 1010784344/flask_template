@@ -1,0 +1,23 @@
+	<script type="text/javascript">
+	/*信息列表全选按钮*/
+    jQuery(document).ready(function($)
+    {
+        var $state = $(".table thead input[type='checkbox']"),
+            $chcks = $(".table tbody input[type='checkbox']");
+        $state.on('change', function(ev)
+        {
+            if($state.is(':checked'))
+            {
+                $chcks.prop('checked', true).trigger('change');
+            }
+            else
+            {
+                $chcks.prop('checked', false).trigger('change');
+            }
+        });
+    });
+	
+	
+	
+    </script>
+
